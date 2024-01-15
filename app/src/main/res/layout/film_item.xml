@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?android:attr/listPreferredItemHeightLarge"
+        android:padding="10dp">
+
+    <TextView
+    android:id="@+id/tvName"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:text="Name"
+    android:textSize="25dp"
+    android:textStyle="bold" />
+
+    <TextView
+    android:id="@+id/tvIsRecommended"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Is Recommended"
+    android:layout_gravity="left|bottom"
+    android:background="@color/teal"
+    android:padding="5dp"
+
+    android:textStyle="italic" />
+
+    <TextView
+    android:id="@+id/tvDuration"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Duration (in minutes): "
+    android:textStyle="italic"
+    android:layout_gravity="right|bottom"
+    android:textColor="@color/teal" />
+
+</FrameLayout>
