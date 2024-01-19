@@ -17,16 +17,13 @@ import java.util.ArrayList;
 import models.Film;
 
 public class FilmsListAdapter extends ArrayAdapter<Film> {
-    private final ArrayList<Film> films;
-
-    public FilmsListAdapter(@NonNull Context context, @NonNull ArrayList<Film> films) {
-        super(context, R.layout.film_item, films);
-        this.films = films;
+    public FilmsListAdapter(@NonNull Context context, @NonNull ArrayList<Film> objects) {
+        super(context, R.layout.film_item, objects);
     }
 
     @NonNull
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Film currentFilm = this.films.get(position);
+        Film currentFilm = getItem(position);
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View v = inflater.inflate(R.layout.film_item, null, false);
