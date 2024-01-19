@@ -1,10 +1,16 @@
 package com.dkqz.filmlist;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -18,21 +24,18 @@ import adapters.FilmsListAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
+    public final ArrayList<Film> data = new ArrayList<>();
+    public FilmsListAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayList<Film> data = new ArrayList<>();
         ListView listView = findViewById(R.id.listView);
 
-        FilmsListAdapter adapter = new FilmsListAdapter(this, data);
+        adapter = new FilmsListAdapter(this, data);
         listView.setAdapter(adapter);
-
-        EditText etName = findViewById(R.id.etAdd);
-        EditText etDuration = findViewById(R.id.etDuration);
-        CheckBox cbRecommended = findViewById(R.id.cbRecommended);
-        Button btnAdd = findViewById(R.id.btnAdd);
 
         listView.setOnItemLongClickListener((adapterView, view, i, l) -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -50,41 +53,37 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         });
+    }
 
-        btnAdd.setOnClickListener(v -> {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
 
-            // get name
-            String name = etName.getText().toString();
+        return super.onCreateOptionsMenu(menu);
+    }
 
-            if (name.equals("")) {
-                etName.setError("Required field!");
-                return;
-            }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.menu_item_1) {
+            Intent intent = new Intent(getApplicationContext(), FilmActivity.class);
+            startActivityForResult(intent, 1);
+        }
 
-            // get duration
-            String duration = etDuration.getText().toString();
+        return super.onOptionsItemSelected(item);
+    }
 
-            if (duration.equals("")) {
-                etDuration.setError("Required field!");
-                return;
-            }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-            // get checkbox
-            boolean recommended = cbRecommended.isChecked();
+        if (resultCode == Activity.RESULT_OK) {
 
-            // add to list
-            data.add(new Film(
-                name,
-                Integer.parseInt(duration),
-                recommended
-            ));
+            Film film = (Film) data.getSerializableExtra("film");
+
+            this.data.add(film);
             adapter.notifyDataSetChanged();
-            listView.smoothScrollToPosition(data.size());
-
-            // reset
-            etName.setText("");
-            etDuration.setText("");
-            cbRecommended.setChecked(false);
-        });
+            ((ListView) findViewById(R.id.listView)).smoothScrollToPosition(this.data.size());
+        }
     }
 }

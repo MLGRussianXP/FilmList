@@ -1,6 +1,8 @@
 package models;
 
-public class Film {
+import java.io.Serializable;
+
+public class Film implements Serializable {
     private final String name;
     private final int duration;
     private final boolean recommended;
