@@ -1,4 +1,4 @@
-package FilmsList;
+package models;
 
 public class Film {
     private final String name;

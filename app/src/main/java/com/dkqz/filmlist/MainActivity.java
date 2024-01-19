@@ -3,10 +3,8 @@ package com.dkqz.filmlist;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -14,10 +12,9 @@ import android.widget.ListView;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import FilmsList.Film;
-import FilmsList.FilmsListAdapter;
+import models.Film;
+import adapters.FilmsListAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
