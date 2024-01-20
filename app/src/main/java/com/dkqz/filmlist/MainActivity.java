@@ -53,6 +53,15 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         });
+
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            Intent intent = new Intent(getApplicationContext(), FilmActivity.class);
+
+            intent.putExtra("film", data.get(i));
+            intent.putExtra("index", i);
+
+            startActivityForResult(intent, 2);
+        });
     }
 
     @Override
@@ -77,13 +86,22 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == Activity.RESULT_OK) {
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
 
             Film film = (Film) data.getSerializableExtra("film");
 
             this.data.add(film);
             adapter.notifyDataSetChanged();
             ((ListView) findViewById(R.id.listView)).smoothScrollToPosition(this.data.size());
+        }
+
+        else if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
+            int index = data.getIntExtra("index", 0);
+            Film film = (Film) data.getSerializableExtra("film");
+
+            this.data.set(index, film);
+            adapter.notifyDataSetChanged();
+            ((ListView) findViewById(R.id.listView)).smoothScrollToPosition(index + 1);
         }
     }
 }

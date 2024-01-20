@@ -22,6 +22,23 @@ public class FilmActivity extends AppCompatActivity {
         CheckBox cbRecommended = findViewById(R.id.cbRecommended);
         Button btnAdd = findViewById(R.id.btnAdd);
 
+        Intent intent = getIntent();
+
+        boolean edit;
+        Film source = (Film) intent.getSerializableExtra("film");
+
+        if (source != null) {
+            edit = true;
+
+            etName.setText(source.getName());
+            etDuration.setText("" + source.getDuration());
+            cbRecommended.setChecked(source.isRecommended());
+
+            btnAdd.setText("Edit");
+        }
+        else
+            edit = false;
+
         btnAdd.setOnClickListener(v -> {
 
             // get name
@@ -46,16 +63,17 @@ public class FilmActivity extends AppCompatActivity {
             // return to main activity
             Intent data = new Intent();
 
-            data.putExtra(
-                    "film",
-                    new Film(
-                        name,
-                        Integer.parseInt(duration),
-                        recommended
-                    )
+            Film film = new Film(
+                name,
+                Integer.parseInt(duration),
+                recommended
             );
-            setResult(Activity.RESULT_OK, data);
 
+            data.putExtra("film", film);
+            if (edit)
+                data.putExtra("index", intent.getIntExtra("index", 0));
+
+            setResult(Activity.RESULT_OK, data);
             finish();
         });
     }

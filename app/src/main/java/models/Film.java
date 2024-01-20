@@ -3,9 +3,9 @@ package models;
 import java.io.Serializable;
 
 public class Film implements Serializable {
-    private final String name;
-    private final int duration;
-    private final boolean recommended;
+    private String name;
+    private int duration;
+    private boolean recommended;
 
     public Film(String name, int duration, boolean recommended) {
         this.name = name;
@@ -23,5 +23,17 @@ public class Film implements Serializable {
 
     public boolean isRecommended() {
         return recommended;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public void setRecommended(boolean recommended) {
+        this.recommended = recommended;
     }
 }
