@@ -1,5 +1,7 @@
 package models;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class Film implements Serializable {
@@ -25,15 +27,13 @@ public class Film implements Serializable {
         return recommended;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
-    public void setRecommended(boolean recommended) {
-        this.recommended = recommended;
+    @NonNull
+    @Override
+    public String toString() {
+        return "Film{" +
+                "name='" + name + '\'' +
+                ", duration=" + duration +
+                ", recommended=" + recommended +
+                '}';
     }
 }
