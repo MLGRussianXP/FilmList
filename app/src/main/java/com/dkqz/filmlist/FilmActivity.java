@@ -75,8 +75,9 @@ public class FilmActivity extends AppCompatActivity {
                 DatabaseReference push = Film.films.push();
                 push.setValue(film);
             }
-
-            data.putExtra("index", intent.getIntExtra("index", 0));
+            else {
+                data.putExtra("index", intent.getIntExtra("index", -1));
+            }
 
             setResult(Activity.RESULT_OK, data);
             finish();
