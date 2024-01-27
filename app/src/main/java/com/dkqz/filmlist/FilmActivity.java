@@ -9,6 +9,8 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+
 import models.Film;
 
 public class FilmActivity extends AppCompatActivity {
@@ -69,9 +71,12 @@ public class FilmActivity extends AppCompatActivity {
                 recommended
             );
 
-            data.putExtra("film", film);
-            if (edit)
-                data.putExtra("index", intent.getIntExtra("index", 0));
+            if (!edit) {
+                DatabaseReference push = Film.films.push();
+                push.setValue(film);
+            }
+
+            data.putExtra("index", intent.getIntExtra("index", 0));
 
             setResult(Activity.RESULT_OK, data);
             finish();

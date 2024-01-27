@@ -14,6 +14,10 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 import models.Film;
@@ -34,31 +38,48 @@ public class MainActivity extends AppCompatActivity {
         adapter = new FilmsListAdapter(this, data);
         listView.setAdapter(adapter);
 
-        listView.setOnItemLongClickListener((adapterView, view, i, l) -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("Delete this note");
-            builder.setMessage("Are you sure?");
-
-            builder.setPositiveButton("Yes", (dialogInterface, n) -> {
-                data.remove(i);
+        Film.films.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                data.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    Film film = ds.getValue(Film.class);
+                    data.add(film);
+                }
                 adapter.notifyDataSetChanged();
-            });
+            }
 
-            builder.setNegativeButton("No", null);
-
-            builder.show();
-
-            return true;
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println(error);
+            }
         });
 
-        listView.setOnItemClickListener((adapterView, view, i, l) -> {
-            Intent intent = new Intent(getApplicationContext(), FilmActivity.class);
-
-            intent.putExtra("film", data.get(i));
-            intent.putExtra("index", i);
-
-            startActivityForResult(intent, 2);
-        });
+//        listView.setOnItemLongClickListener((adapterView, view, i, l) -> {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+//            builder.setTitle("Delete this note");
+//            builder.setMessage("Are you sure?");
+//
+//            builder.setPositiveButton("Yes", (dialogInterface, n) -> {
+//                data.remove(i);
+//                adapter.notifyDataSetChanged();
+//            });
+//
+//            builder.setNegativeButton("No", null);
+//
+//            builder.show();
+//
+//            return true;
+//        });
+//
+//        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+//            Intent intent = new Intent(getApplicationContext(), FilmActivity.class);
+//
+//            intent.putExtra("film", data.get(i));
+//            intent.putExtra("index", i);
+//
+//            startActivityForResult(intent, 2);
+//        });
     }
 
     @Override
@@ -84,20 +105,12 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
-
-            Film film = (Film) data.getSerializableExtra("film");
-
-            this.data.add(film);
-            adapter.notifyDataSetChanged();
             ((ListView) findViewById(R.id.listView)).smoothScrollToPosition(this.data.size());
         }
 
+        // temporary unavailable due to not implementing editing
         else if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
-            int index = data.getIntExtra("index", 0);
-            Film film = (Film) data.getSerializableExtra("film");
-
-            this.data.set(index, film);
-            adapter.notifyDataSetChanged();
+            int index = data.getIntExtra("index", -1);
             ((ListView) findViewById(R.id.listView)).smoothScrollToPosition(index + 1);
         }
     }

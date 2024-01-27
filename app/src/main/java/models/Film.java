@@ -2,17 +2,26 @@ package models;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.Serializable;
 
 public class Film implements Serializable {
-    private String name;
-    private int duration;
-    private boolean recommended;
+    private String name = "";
+    private int duration = 0;
+    private boolean recommended = false;
+
+    public static FirebaseDatabase db = FirebaseDatabase.getInstance();
+    public static DatabaseReference films = db.getReference().child("Films");
 
     public Film(String name, int duration, boolean recommended) {
         this.name = name;
         this.duration = duration;
         this.recommended = recommended;
+    }
+
+    public Film() {
     }
 
     public String getName() {
