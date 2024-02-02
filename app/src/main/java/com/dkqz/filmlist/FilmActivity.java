@@ -73,6 +73,7 @@ public class FilmActivity extends AppCompatActivity {
 
             if (!edit) {
                 DatabaseReference push = Film.films.push();
+                film.setKey(push.getKey());
                 push.setValue(film);
             }
             else {

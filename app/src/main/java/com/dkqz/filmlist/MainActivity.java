@@ -55,23 +55,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        listView.setOnItemLongClickListener((adapterView, view, i, l) -> {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//            builder.setTitle("Delete this note");
-//            builder.setMessage("Are you sure?");
-//
-//            builder.setPositiveButton("Yes", (dialogInterface, n) -> {
-//                data.remove(i);
-//                adapter.notifyDataSetChanged();
-//            });
-//
-//            builder.setNegativeButton("No", null);
-//
-//            builder.show();
-//
-//            return true;
-//        });
-//
+        listView.setOnItemLongClickListener((adapterView, view, i, l) -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("Delete this note");
+            builder.setMessage("Are you sure?");
+
+            builder.setPositiveButton("Yes", (dialogInterface, n) -> Film.films.child(data.get(i).getKey()).removeValue());
+            builder.setNegativeButton("No", null);
+
+            builder.show();
+            return true;
+        });
+
 //        listView.setOnItemClickListener((adapterView, view, i, l) -> {
 //            Intent intent = new Intent(getApplicationContext(), FilmActivity.class);
 //

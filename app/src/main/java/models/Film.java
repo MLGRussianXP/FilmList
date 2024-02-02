@@ -8,6 +8,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.io.Serializable;
 
 public class Film implements Serializable {
+    private String key = "";
     private String name = "";
     private int duration = 0;
     private boolean recommended = false;
@@ -22,6 +23,14 @@ public class Film implements Serializable {
     }
 
     public Film() {
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getName() {
