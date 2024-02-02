@@ -9,7 +9,9 @@ import java.io.Serializable;
 
 public class Film implements Serializable {
     private String key = "";
+
     private String name = "";
+
     private int duration = 0;
     private boolean recommended = false;
 
@@ -37,12 +39,24 @@ public class Film implements Serializable {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getDuration() {
         return duration;
     }
 
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
     public boolean isRecommended() {
         return recommended;
+    }
+
+    public void setRecommended(boolean recommended) {
+        this.recommended = recommended;
     }
 
     @NonNull

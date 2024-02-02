@@ -38,8 +38,11 @@ public class FilmActivity extends AppCompatActivity {
 
             btnAdd.setText("Edit");
         }
-        else
+        else {
+            source = new Film();
             edit = false;
+        }
+        Film film = source;
 
         btnAdd.setOnClickListener(v -> {
 
@@ -65,11 +68,9 @@ public class FilmActivity extends AppCompatActivity {
             // return to main activity
             Intent data = new Intent();
 
-            Film film = new Film(
-                name,
-                Integer.parseInt(duration),
-                recommended
-            );
+            film.setName(name);
+            film.setDuration(Integer.parseInt(duration));
+            film.setRecommended(recommended);
 
             if (!edit) {
                 DatabaseReference push = Film.films.push();
@@ -77,6 +78,7 @@ public class FilmActivity extends AppCompatActivity {
                 push.setValue(film);
             }
             else {
+                Film.films.child(film.getKey()).setValue(film);
                 data.putExtra("index", intent.getIntExtra("index", -1));
             }
 
